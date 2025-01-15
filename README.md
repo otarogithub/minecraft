@@ -1,2 +1,2 @@
-# minecraft
-minecraft recreated in ursina
+# Minecraft
+ a minecraft clone by python added bedrock blocks!
