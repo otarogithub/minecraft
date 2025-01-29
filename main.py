@@ -15,7 +15,7 @@ def input(key):
 
 class Player():
     def __init__(self):
-        self.controller = FirstPersonController(color=color.red, scale=0.8, position=(0, 0, 0), collider='sphere', gravity=False)
+        self.controller = FirstPersonController(color=color.red, scale=0.8, position=(0, 0, 0), collider='sphere', gravity=True)
         self.controller.cursor = Entity(parent=camera.ui, model='quad', texture='Textures/crosshair.png', scale=0.03)
         self.block_pick = 1
         
@@ -24,7 +24,7 @@ class Player():
 
 
     def update(self):
-        print(self.controller.position)
+
         if held_keys['1']: 
             self.block_pick = 1
         if held_keys['2']: 

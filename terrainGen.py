@@ -3,16 +3,19 @@ from perlin_noise import PerlinNoise
 
 player_pos = None
 
+noise = PerlinNoise(octaves=5, seed=random.randrange(-1000000, 1000000))
+
 class block:
     block = load_model('cube.obj')
     texture = 'Textures/images.png'
     entity = None
     
     def __init__(self):
-        self.entity = Entity(model='cube', texture=self.texture)
+        self.entity = Entity(model='cube', collider="box",texture=self.texture)
+        #self.entity.wireframe = True
     
     def genBlock(self, x, y, z):
-        self.entity.position = (x, -30, z)
+        self.entity.position = (x, y, z)
         
     def colliderController(self):
         self.entity._collider = None
@@ -27,6 +30,7 @@ class chunk:
         self.z = z
         
         self.blockList = []
+        self.isEnabled = False
 
     def genTerrain(self):
         a = int(self.chunk_length/2)
@@ -36,17 +40,23 @@ class chunk:
         for x in range(-a, a):
             for z in range(-a, a):
                 #print(i)
+                y = noise([(x + (self.x * 16)) * .02,(z + (self.z * 16)) * .02])
+                y = math.floor(y * 7.5)
                 self.blockList.append(block())
-                self.blockList[i].genBlock(x + (self.x * 16), -i, z + (self.z * 16))
+                self.blockList[i].genBlock(x + (self.x * 16), -y, z + (self.z * 16))
                 i += 1
         #self.disableChunk()
     
     def disableChunk(self):
+        self.isEnabled = False
         for block in self.blockList:
+            block.entity.collision = False
             block.entity.disable()
     
     def enableChunk(self):
+        self.isEnabled = True
         for block in self.blockList:
+            block.entity.collision = True
             block.entity.enable()
             
 
@@ -54,7 +64,7 @@ class chunk:
 #---------------------------------------------------------------------------------------------------------------------------
 
 class terrainGen:
-    world_length = 32
+    world_length = 16
     
     def __init__(self):
         self.chunkList = []
@@ -73,7 +83,7 @@ class terrainGen:
             self.chunkList.append(temp)
     
     def update(self, p):
-        print(p)
+        #print(p)
         '''for chunk in self.chunkList:
             if (chunk.x - (p.x/16) > 0.5) or (chunk.z - (p.z/16) > 0.5):
                 chunk.disableChunk()
@@ -83,7 +93,10 @@ class terrainGen:
             
         for x in range(0, len(self.chunkList)):
             for z in range(0, len(self.chunkList[x])):
-                if (((x - p.x)/(z - p.z)) > 3 ):
+                distX = (x - (p.x / 16)) - (self.world_length/16)
+                distZ = (z - (p.z/ 16)) - (self.world_length/16)
+                #print(str(distX) + " " + str(distZ))
+                if (((distX > 1 or distX < -1) or (distZ > 1 or distZ < -1))):
                     self.chunkList[x][z].disableChunk()
                 else:
                     self.chunkList[x][z].enableChunk()
