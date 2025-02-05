@@ -42,9 +42,12 @@ class chunk:
                 #print(i)
                 y = noise([(x + (self.x * 16)) * .02,(z + (self.z * 16)) * .02])
                 y = math.floor(y * 7.5)
+                
                 self.blockList.append(block())
                 self.blockList[i].genBlock(x + (self.x * 16), -y, z + (self.z * 16))
+                    
                 i += 1
+                
         #self.disableChunk()
     
     def disableChunk(self):

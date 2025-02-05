@@ -24,7 +24,6 @@ class Player():
 
 
     def update(self):
-
         if held_keys['1']: 
             self.block_pick = 1
         if held_keys['2']: 
@@ -33,9 +32,9 @@ class Player():
 
 player = Player()
 
-#
+player.controller.gravity = 1
 # 
-camera.clip_plane_far = 200
+camera.clip_plane_far = 20
 
 #print(camera.clip_plane_far)
 
@@ -72,7 +71,7 @@ class Voxel(Button):
             self.visible = True
             self.collider = 'box'
         
-
+y
 noise = PerlinNoise(octaves=5, seed=random.randrange(-1000000, 1000000))
 cube_list = []
 for x in range(round(-WORLD_WIDTH/2), round(WORLD_WIDTH/2)):
@@ -85,11 +84,15 @@ for x in range(round(-WORLD_WIDTH/2), round(WORLD_WIDTH/2)):
 '''            
 terrain = terrainGen()
 
-
+Sky()
 
 terrain.genTerrain()
 def update():
     terrain.update(player.controller.position)
+    if player.controller.y < -30:
+        player.controller.y += 50
+    print(player.controller.y)
+       
 
 app.run()
 
