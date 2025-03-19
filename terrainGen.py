@@ -140,6 +140,5 @@ class terrainGen:
                 self.genBlock(x, -i, z, i)
                 if i < pow(self.worldLength, 2):
                     i += 1
-                    
-        #self.blockList[0].model.generate()
+                    0
         '''
