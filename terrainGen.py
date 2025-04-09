@@ -6,16 +6,16 @@ player_pos = None
 noise = PerlinNoise(octaves=5, seed=random.randrange(-1000000, 1000000))
 
 class block:
-    block = load_model('cube.obj')
-    texture = 'Textures/images.png'
+    block = load_model('Models/cube.obj')
+    texture = 'Textures/Grass_block.jpg'
     entity = None
     
-    def __init__(self):
-        self.entity = Entity(model='cube', collider="box",texture=self.texture)
+    def __init__(self, x, y, z):
+        self.entity = Entity(model= 'Models/cube', collider = 'box', texture=self.texture, world_position = (x, y, z))
         #self.entity.wireframe = True
     
     def genBlock(self, x, y, z):
-        self.entity.position = (x, y, z)
+        self.entity.world_position = (x, y, z)
         
     def colliderController(self):
         self.entity._collider = None
@@ -26,6 +26,8 @@ class chunk:
     chunk_length = 16
     
     def __init__(self, x, z) -> None:
+        self.chunk = Entity(model = None, collider = None)
+        
         self.x = x
         self.z = z
         
@@ -43,31 +45,41 @@ class chunk:
                 y = noise([(x + (self.x * 16)) * .02,(z + (self.z * 16)) * .02])
                 y = math.floor(y * 7.5)
                 
-                self.blockList.append(block())
-                self.blockList[i].genBlock(x + (self.x * 16), -y, z + (self.z * 16))
-                    
+                #while (y < 4):
+                self.blockList.append(block(x + (self.x * 16), -y, z + (self.z * 16)))
+                    #self.blockList[i].genBlock(x + (self.x * 16), -y, z + (self.z * 16))
+                self.blockList[i].entity.parent = self.chunk
+                    #y += 1
                 i += 1
+                    
                 
+        
+        self.chunk.combine()
+        self.chunk.collider = 'mesh'
+        self.chunk.texture = 'Textures/Grass_block.jpg'
         #self.disableChunk()
+    
     
     def disableChunk(self):
         self.isEnabled = False
-        for block in self.blockList:
-            block.entity.collision = False
-            block.entity.disable()
+        self.chunk.disable()
+        #for block in self.blockList:
+            #block.entity.collision = False
+            #block.entity.disable()
     
     def enableChunk(self):
         self.isEnabled = True
-        for block in self.blockList:
-            block.entity.collision = True
-            block.entity.enable()
+        self.chunk.enable()
+        #for block in self.blockList:
+            #block.entity.collision = True
+            #block.entity.enable()
             
 
     
 #---------------------------------------------------------------------------------------------------------------------------
 
 class terrainGen:
-    world_length = 16
+    world_length = 64
     
     def __init__(self):
         self.chunkList = []
@@ -99,10 +111,12 @@ class terrainGen:
                 distX = (x - (p.x / 16)) - (self.world_length/16)
                 distZ = (z - (p.z/ 16)) - (self.world_length/16)
                 #print(str(distX) + " " + str(distZ))
-                if (((distX > 1 or distX < -1) or (distZ > 1 or distZ < -1))):
+                
+                if (((distX > 5 or distX < -5) or (distZ > 5 or distZ < -5))):
                     self.chunkList[x][z].disableChunk()
                 else:
                     self.chunkList[x][z].enableChunk()
+                
                 #print("um um um")
             
             
