@@ -73,51 +73,57 @@ class chunk:
         #for block in self.blockList:
             #block.entity.collision = True
             #block.entity.enable()
-            
+
 
     
 #---------------------------------------------------------------------------------------------------------------------------
 
 class terrainGen:
-    world_length = 64
+    world_length = 16
     
     def __init__(self):
         self.chunkList = []
         
     def genTerrain(self):
+        
+        
         a = int(self.world_length/16)
         
         i = 0
         for x in range(-a, a):
             temp = []
             for z in range(-a, a):
-                #print(i)
                 temp.append(chunk(x, z))
                 temp[z+a].genTerrain()
+
+
                 i += 1
             self.chunkList.append(temp)
+        
     
     def update(self, p):
-        #print(p)
+        #self.genTerrain(p)
+        
         '''for chunk in self.chunkList:
             if (chunk.x - (p.x/16) > 0.5) or (chunk.z - (p.z/16) > 0.5):
                 chunk.disableChunk()
             else:
                 chunk.enableChunk()
             #loads strips of chunks when moving back and forth??? kinda dumb tbh'''
-            
+        '''
         for x in range(0, len(self.chunkList)):
             for z in range(0, len(self.chunkList[x])):
                 distX = (x - (p.x / 16)) - (self.world_length/16)
                 distZ = (z - (p.z/ 16)) - (self.world_length/16)
                 #print(str(distX) + " " + str(distZ))
                 
-                if (((distX > 5 or distX < -5) or (distZ > 5 or distZ < -5))):
+                if (distX > 5 or distX < -5) or (distZ > 5 or distZ < -5):
                     self.chunkList[x][z].disableChunk()
                 else:
                     self.chunkList[x][z].enableChunk()
                 
-                #print("um um um")
+                #print("um um um")'''
+        
             
             
                     

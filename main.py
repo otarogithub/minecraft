@@ -68,8 +68,8 @@ for x in range(round(-WORLD_WIDTH/2), round(WORLD_WIDTH/2)):
 
 
 
-
 terrain.genTerrain()
+
 def update():
     terrain.update(player.controller.position)
     player.update()  
