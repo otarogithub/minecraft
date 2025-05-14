@@ -3,7 +3,7 @@ from perlin_noise import PerlinNoise
 
 player_pos = None
 
-noise = PerlinNoise(octaves=5, seed=random.randrange(-1000000, 1000000))
+noise = PerlinNoise(octaves=6, seed=random.randrange(-1000000, 1000000))
 
 class block:
     block = load_model('Models/cube.obj')
@@ -79,7 +79,7 @@ class chunk:
 #---------------------------------------------------------------------------------------------------------------------------
 
 class terrainGen:
-    world_length = 16
+    world_length = 64
     
     def __init__(self):
         self.chunkList = []

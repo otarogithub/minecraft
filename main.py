@@ -7,6 +7,10 @@ import time
 
 Text.default_resolution = pow(Text.size, 10)
 app = Ursina()
+scene.fog_density = .1
+scene.fog_density = (0, 125)
+
+
 
 Sky()
 WORLD_WIDTH = 50
@@ -16,7 +20,7 @@ player = player.Player()
 player.controller.gravity = 0.8
 player.controller.speed = 5
 
-camera.clip_plane_far = 200
+camera.clip_plane_far = 105
 
 
 #print(camera.clip_plane_far)
