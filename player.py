@@ -17,7 +17,12 @@ class Player():
         self.respawn_pos = (0, 0.5, 0)
         
     def update(self):
-        #print(self.death_message.resolution)
+        hit_info = raycast(self.controller.position, Vec3(0, 0, 0),  ignore=(self.controller,), distance=9, debug=True, color=color.black)
+
+        if hit_info.hit:
+            print(hit_info.entity)
+
+
         if held_keys['1']: 
             self.block_pick = 1
         if held_keys['2']: 
@@ -53,3 +58,4 @@ class Player():
             self.death_message.enable()
             self.respawn_button.enable()
             self.controller.disable()
+    
