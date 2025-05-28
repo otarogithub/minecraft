@@ -3,7 +3,7 @@ from ursina.prefabs.first_person_controller import FirstPersonController
 
 class Player():
     def __init__(self):
-        self.controller = FirstPersonController(color=color.red, scale=0.8, position=(0, 0, 0), collider='sphere', gravity=True)
+        self.controller = FirstPersonController(color=color.red, scale=0.8, position=(0, 0, 0), collider='None', gravity=True)
         self.controller.cursor = Entity(parent=camera.ui, model='quad', texture='Textures/crosshair.png', scale=0.03)
         self.block_pick = 1
         self.death_message = Text(parent=camera.ui, text='You Died', scale=20, origin=(0, -0.6),
@@ -16,20 +16,28 @@ class Player():
         self.walking = Audio("Sounds/Walking.mp3", volume=5)
         self.respawn_pos = (0, 0.5, 0)
         
+        
     def update(self):
-        hit_info = raycast(self.controller.position, Vec3(0, 0, 0),  ignore=(self.controller,), distance=9, debug=True, color=color.black)
-
+        #hit_info = raycast((0,5,0), camera.rotation_directions, ignore=(self.controller,), distance=9, debug=True, color=color.black)
+        '''
         if hit_info.hit:
             print(hit_info.entity)
-
-
+        '''
         if held_keys['1']: 
             self.block_pick = 1
         if held_keys['2']: 
             self.block_pick = 2
         if self.controller.y < -30:
             self.death()
-        print(self.controller.position)
+
+        
+        if mouse.collision != None:
+            #print(mouse.collision)
+            print(mouse.collision.entity.position)
+            
+            if mouse.left:
+                mouse.hovered_entity.disable()
+            
 
         '''
         if self.controller.speed > 5 or self.controller.speed < 5:
@@ -58,4 +66,5 @@ class Player():
             self.death_message.enable()
             self.respawn_button.enable()
             self.controller.disable()
+
     

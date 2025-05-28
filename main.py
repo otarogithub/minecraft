@@ -5,7 +5,7 @@ import player
 from terrainGen import terrainGen
 import time
 
-Text.default_resolution = pow(Text.size, 10)
+
 app = Ursina()
 scene.fog_density = .1
 scene.fog_density = (0, 100)
@@ -14,6 +14,7 @@ scene.fog_density = (0, 100)
 Sky()
 WORLD_WIDTH = 50
 terrain = terrainGen()
+
 
 player = player.Player()
 player.controller.gravity = 0.8
@@ -42,7 +43,7 @@ class Voxel(Button):
             if key == 'left mouse down':
                 destroy(self)
             if key == 'right mouse down':
-                if player.block_pick == 1:
+                if player.block_pick == 1: 
                     voxel = Voxel(position=self.position + mouse.normal, texture='Textures/images.png')
                 if player.block_pick == 2:
                     voxel = Voxel(position=self.position + mouse.normal, texture='Textures/bedrock.png')

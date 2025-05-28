@@ -10,15 +10,17 @@ class block:
     texture = 'Textures/Grass_block.jpg'
     entity = None
     
-    def __init__(self, x, y, z):
-        self.entity = Entity(model= 'Models/cube', collider = 'box', texture=self.texture, world_position = (x, y, z))
+    def __init__(self):
+        self.entity = Entity(model= 'Models/cube', collider = 'box', texture=self.texture)
         #self.entity.wireframe = True
     
     def genBlock(self, x, y, z):
-        self.entity.world_position = (x, y, z)
+        self.entity.position = (x, y, z)
         
     def colliderController(self):
         self.entity._collider = None
+        
+    
 
 #---------------------------------------------------------------------------------------------------------------------------
 
@@ -26,7 +28,8 @@ class chunk:
     chunk_length = 16
     
     def __init__(self, x, z) -> None:
-        self.chunk = Entity(model = None, collider = None)
+        self.chunk = Entity(model = None, collider = None, world_position = (x*16, 0, z*16))
+        
         
         self.x = x
         self.z = z
@@ -46,9 +49,10 @@ class chunk:
                 y = math.floor(y * 7.5)
                 
                 #while (y < 4):
-                self.blockList.append(block(x + (self.x * 16), -y, z + (self.z * 16)))
+                self.blockList.append(block())
                     #self.blockList[i].genBlock(x + (self.x * 16), -y, z + (self.z * 16))
                 self.blockList[i].entity.parent = self.chunk
+                self.blockList[i].genBlock(x, -y, z)
                     #y += 1
                 i += 1
                     
@@ -82,7 +86,7 @@ class chunk:
 #---------------------------------------------------------------------------------------------------------------------------
 
 class terrainGen:
-    world_length = 16
+    world_length = 32
     
     def __init__(self):
         self.chunkList = []
@@ -99,9 +103,9 @@ class terrainGen:
                 temp.append(chunk(x, z))
                 temp[z+a].genTerrain()
 
-
                 i += 1
             self.chunkList.append(temp)
+
         
     
     def update(self, p):
@@ -129,41 +133,4 @@ class terrainGen:
                 
                 #print("um um um")'''
         
-            
-            
-                    
-
-'''
-class terrainGen:
-    def __init__(self):
-        #self.block = load_model('cube.obj')
-        self.texture = 'Textures/images.png'
-        
-        self.blockList = []
-        self.worldLength = 64
-        for i in range(0, pow(self.worldLength, 2)):
-            e = Entity(model='cube',
-                       texture=self.texture)
-            self.blockList.append(e)
-            
     
-    
-    def genBlock(self, x, y, z, i):
-        model = self.blockList[i]
-        model.position = (x, 0, z)
-        
-        #model.vertices.extend([Vec3(x,y,z) + v for v in self.block.vertices])
-
-            
-    def genTerrain(self):
-        a = int(self.worldLength/2)
-        
-        i = 0
-        for x in range(-a, a):
-            for z in range(-a, a):
-                print(i)
-                self.genBlock(x, -i, z, i)
-                if i < pow(self.worldLength, 2):
-                    i += 1
-                    0
-        '''
