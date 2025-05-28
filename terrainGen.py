@@ -73,6 +73,9 @@ class chunk:
         #for block in self.blockList:
             #block.entity.collision = True
             #block.entity.enable()
+    
+    #def updateChunk(self, playercast):
+
 
 
     
@@ -102,6 +105,8 @@ class terrainGen:
         
     
     def update(self, p):
+
+
         #self.genTerrain(p)
         
         '''for chunk in self.chunkList:

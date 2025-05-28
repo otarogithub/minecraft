@@ -8,8 +8,7 @@ import time
 Text.default_resolution = pow(Text.size, 10)
 app = Ursina()
 scene.fog_density = .1
-scene.fog_density = (0, 125)
-
+scene.fog_density = (0, 100)
 
 
 Sky()
@@ -19,7 +18,7 @@ terrain = terrainGen()
 player = player.Player()
 player.controller.gravity = 0.8
 player.controller.speed = 5
-
+app.entity_counter = True
 camera.clip_plane_far = 105
 
 
