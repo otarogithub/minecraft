@@ -79,7 +79,7 @@ class chunk:
 #---------------------------------------------------------------------------------------------------------------------------
 
 class terrainGen:
-    world_length = 64
+    world_length = 16
     
     def __init__(self):
         self.chunkList = []
