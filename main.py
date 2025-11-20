@@ -5,11 +5,11 @@ import player
 from terrainGen import terrainGen
 import time
 
-
 app = Ursina()
-scene.fog_density = .1
-scene.fog_density = (0, 100)
 
+scene.fog_density = .01
+scene.fog_density = (1, 100)
+scene.fog_color = color.white
 
 Sky()
 WORLD_WIDTH = 50
@@ -20,7 +20,7 @@ player = player.Player()
 player.controller.gravity = 0.8
 player.controller.speed = 5
 app.entity_counter = True
-camera.clip_plane_far = 105
+camera.clip_plane_far = 110
 
 
 #print(camera.clip_plane_far)
