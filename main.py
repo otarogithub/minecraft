@@ -23,6 +23,7 @@ app.entity_counter = True
 camera.clip_plane_far = 110
 
 
+
 #print(camera.clip_plane_far)
 
 '''
@@ -75,6 +76,7 @@ for x in range(round(-WORLD_WIDTH/2), round(WORLD_WIDTH/2)):
 terrain.genTerrain()
 
 def update():
+    print(camera.parent)
     terrain.update(player.controller.position)
     player.update()  
 

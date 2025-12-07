@@ -23,6 +23,24 @@ class block:
     
 
 #---------------------------------------------------------------------------------------------------------------------------
+class structures:
+    def __init__(self, x, y, z):
+        self.structurePos = [x, y, z]
+        
+        self.structure = Entity(model = None, collider = None, world_position = self.structurePos)
+        self.blockList = []
+      
+        self.isEnabled = False
+    def genBlocks(self):
+        for i in range(3):
+            self.blockList.append(block())
+            #self.blockList[i].genBlock(x + (self.x * 16), -y, z + (self.z * 16))
+            self.blockList[i].entity.parent = self.structure
+            self.blockList[i].genBlock(self.structurePos[0], -(self.structurePos[1] + i), self.structurePos[2])
+            
+        self.structure.combine()
+        self.structure.collider = 'mesh'
+        self.structure.texture = 'Textures/Grass_block.jpg'
 
 class chunk:
     chunk_length = 16
@@ -86,7 +104,7 @@ class chunk:
 #---------------------------------------------------------------------------------------------------------------------------
 
 class terrainGen:
-    world_length = 32
+    world_length = 64
     
     def __init__(self):
         self.chunkList = []
