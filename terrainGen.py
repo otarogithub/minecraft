@@ -6,13 +6,13 @@ player_pos = None
 noise = PerlinNoise(octaves=6, seed=random.randrange(-1000000, 1000000))
 
 class block:
-    block = load_model('Models/cube.obj')
+    block = 'Models/cube.obj'
     texture = 'Textures/Grass_block.jpg'
     entity = None
     
     def __init__(self):
-        self.entity = Entity(model= 'Models/cube', collider = 'box', texture=self.texture)
-        #self.entity.wireframe = True
+        self.entity = Entity(model=self.block, collider = 'box', texture=self.texture)
+        
     
     def genBlock(self, x, y, z):
         self.entity.position = (x, y, z)
@@ -46,8 +46,9 @@ class chunk:
     chunk_length = 16
     
     def __init__(self, x, z) -> None:
-        self.chunk = Entity(model = None, collider = None, world_position = (x*16, 0, z*16))
-        
+  
+        self.chunk = Entity(model = None, collider = None, position = (x*16, 0, z*16))
+        self.chunk.wireframe = False
         
         self.x = x
         self.z = z
@@ -66,19 +67,25 @@ class chunk:
                 y = noise([(x + (self.x * 16)) * .02,(z + (self.z * 16)) * .02])
                 y = math.floor(y * 7.5)
                 
-                #while (y < 4):
-                self.blockList.append(block())
-                    #self.blockList[i].genBlock(x + (self.x * 16), -y, z + (self.z * 16))
-                self.blockList[i].entity.parent = self.chunk
-                self.blockList[i].genBlock(x, -y, z)
-                    #y += 1
-                i += 1
+                while (y < 8):
+                    self.blockList.append(block())
+                    self.blockList[i].genBlock(x + (self.x * 16), -y, z + (self.z * 16))
+                    self.blockList[i].entity.parent = self.chunk
+                    self.blockList[i].genBlock(x, -y, z)
+         
+                    #self.chunk.model.vertices.extend(self.blockList[i].entity.combine().vertices)
+                    #self.chunk.model.uvs.extend(self.blockList[i].entity.combine().uvs)
+                    #destroy(self.blockList[i].entity)
+                    y+=1
+                    i += 1
                     
                 
         
-        self.chunk.combine()
+        self.chunk.combine(auto_destroy=True)
+        
         self.chunk.collider = 'mesh'
         self.chunk.texture = 'Textures/Grass_block.jpg'
+        #self.chunk.model.generate_normals()
         #self.disableChunk()
     
     
@@ -104,7 +111,7 @@ class chunk:
 #---------------------------------------------------------------------------------------------------------------------------
 
 class terrainGen:
-    world_length = 64
+    world_length = 16
     
     def __init__(self):
         self.chunkList = []

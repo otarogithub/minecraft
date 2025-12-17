@@ -31,7 +31,7 @@ class Player():
             self.death()
 
         
-        if mouse.collision != None:
+        if mouse.collision != None and not self.dead:
             #print(mouse.collision)
             print(mouse.collision.entity.position)
             
@@ -52,10 +52,10 @@ class Player():
     def input(self, key):
         if key == "p" and self.controller.grounded:
             self.respawn_pos = self.controller.position
-        if key == "f1" and not self.dead:
+        if key == "f" and not self.dead:
             if self.third_person:
                 print("first person")
-                camera.parent = scene
+                camera.parent = self.controller.camera_pivot
                 self.third_person = False
             else:
                 print("third person")
@@ -68,6 +68,7 @@ class Player():
         self.controller.position = self.respawn_pos
         self.respawn_button.disable()
         self.death_message.disable()
+        self.controller.land()
 
     def death(self):
         if self.controller.enabled == True:
@@ -76,5 +77,6 @@ class Player():
             self.death_message.enable()
             self.respawn_button.enable()
             self.controller.disable()
+            
 
     

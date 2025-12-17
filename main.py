@@ -78,6 +78,7 @@ terrain.genTerrain()
 def update():
     print(camera.parent)
     terrain.update(player.controller.position)
+    
     player.update()  
 
 def input(key):
