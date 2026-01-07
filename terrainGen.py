@@ -1,9 +1,10 @@
 from ursina import *
+from random import randrange
 from perlin_noise import PerlinNoise
 
 player_pos = None
 
-noise = PerlinNoise(octaves=6, seed=random.randrange(-1000000, 1000000))
+noise = PerlinNoise(octaves=6, seed=randrange(-1000000, 1000000))
 
 class block:
     block = 'Models/cube.obj'
@@ -23,20 +24,19 @@ class block:
     
 
 #---------------------------------------------------------------------------------------------------------------------------
-class structures:
-    def __init__(self, x, y, z):
-        self.structurePos = [x, y, z]
-        
-        self.structure = Entity(model = None, collider = None, world_position = self.structurePos)
+class structure:
+    def __init__(self):
+        self.structure = Entity(model = None, collider = None)
         self.blockList = []
       
         self.isEnabled = False
-    def genBlocks(self):
-        for i in range(3):
+    def genBlocks(self, x, y, z):
+        structurePos = [x, y, z]
+        for i in range(randrange(4, 8)):
             self.blockList.append(block())
             #self.blockList[i].genBlock(x + (self.x * 16), -y, z + (self.z * 16))
             self.blockList[i].entity.parent = self.structure
-            self.blockList[i].genBlock(self.structurePos[0], -(self.structurePos[1] + i), self.structurePos[2])
+            self.blockList[i].genBlock(structurePos[0], -(structurePos[1] - i), structurePos[2])
             
         self.structure.combine()
         self.structure.collider = 'mesh'
@@ -46,7 +46,6 @@ class chunk:
     chunk_length = 16
     
     def __init__(self, x, z) -> None:
-  
         self.chunk = Entity(model = None, collider = None, position = (x*16, 0, z*16))
         self.chunk.wireframe = False
         
@@ -67,6 +66,9 @@ class chunk:
                 y = noise([(x + (self.x * 16)) * .02,(z + (self.z * 16)) * .02])
                 y = math.floor(y * 7.5)
                 
+                if randrange(0, 100) < 10:
+                    structure().genBlocks(x + (self.x * 16), y-1, z + (self.z * 16))
+
                 while (y < 8):
                     self.blockList.append(block())
                     self.blockList[i].genBlock(x + (self.x * 16), -y, z + (self.z * 16))

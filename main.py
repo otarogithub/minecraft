@@ -17,12 +17,10 @@ terrain = terrainGen()
 
 
 player = player.Player()
-player.controller.gravity = 0.8
+player.controller.gravity = 0.0005
 player.controller.speed = 5
 app.entity_counter = True
 camera.clip_plane_far = 110
-
-
 
 #print(camera.clip_plane_far)
 
@@ -69,7 +67,7 @@ for x in range(round(-WORLD_WIDTH/2), round(WORLD_WIDTH/2)):
         while (y > -1):
             voxel = Voxel(position=(x, y, z))
             y -= 1
-'''            
+'''
 
 
 
