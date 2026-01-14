@@ -32,12 +32,24 @@ class structure:
         self.isEnabled = False
     def genBlocks(self, x, y, z):
         structurePos = [x, y, z]
+        newY = y
         for i in range(randrange(4, 8)):
             self.blockList.append(block())
             #self.blockList[i].genBlock(x + (self.x * 16), -y, z + (self.z * 16))
             self.blockList[i].entity.parent = self.structure
             self.blockList[i].genBlock(structurePos[0], -(structurePos[1] - i), structurePos[2])
-            
+            newY = -(structurePos[1] - i)
+        structurePos[1] = newY
+        
+        randLength = randrange(2, 4)
+        for i in range(randrange(3, 6)):
+            for j in range(randLength):
+                for k in range(randLength):
+                    self.blockList.append(block())
+                    self.blockList[i].entity.parent = self.structure
+                    self.blockList[i].genBlock(structurePos[0] + j, -(structurePos[1] - i), structurePos[2] + k)
+        
+        
         self.structure.combine()
         self.structure.collider = 'mesh'
         self.structure.texture = 'Textures/Grass_block.jpg'
@@ -65,9 +77,10 @@ class chunk:
                 #print(i)
                 y = noise([(x + (self.x * 16)) * .02,(z + (self.z * 16)) * .02])
                 y = math.floor(y * 7.5)
-                
-                if randrange(0, 100) < 10:
+                '''
+                if randrange(0, 100) < 2:
                     structure().genBlocks(x + (self.x * 16), y-1, z + (self.z * 16))
+                '''
 
                 while (y < 8):
                     self.blockList.append(block())
@@ -113,7 +126,7 @@ class chunk:
 #---------------------------------------------------------------------------------------------------------------------------
 
 class terrainGen:
-    world_length = 16
+    world_length = 32
     
     def __init__(self):
         self.chunkList = []

@@ -17,7 +17,7 @@ terrain = terrainGen()
 
 
 player = player.Player()
-player.controller.gravity = 0.0005
+#player.controller.gravity = 0.0005
 player.controller.speed = 5
 app.entity_counter = True
 camera.clip_plane_far = 110
