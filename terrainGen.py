@@ -8,7 +8,7 @@ noise = PerlinNoise(octaves=6, seed=randrange(-1000000, 1000000))
 
 class block:
     block = 'Models/cube.obj'
-    texture = 'Textures/Grass_block.jpg'
+    texture = 'Textures/block_atlas.png'
     entity = None
     
     def __init__(self):
@@ -28,7 +28,7 @@ class structure:
     def __init__(self):
         self.structure = Entity(model = None, collider = None)
         self.blockList = []
-      
+        self.texture = 'Textures/block_atlas.png'
         self.isEnabled = False
     def genBlocks(self, x, y, z):
         structurePos = [x, y, z]
@@ -52,7 +52,7 @@ class structure:
         
         self.structure.combine()
         self.structure.collider = 'mesh'
-        self.structure.texture = 'Textures/Grass_block.jpg'
+        self.structure.texture = self.texture
 
 class chunk:
     chunk_length = 16
@@ -60,7 +60,7 @@ class chunk:
     def __init__(self, x, z) -> None:
         self.chunk = Entity(model = None, collider = None, position = (x*16, 0, z*16))
         self.chunk.wireframe = False
-        
+        self.texture = 'Textures/block_atlas.png'
         self.x = x
         self.z = z
         
@@ -99,7 +99,7 @@ class chunk:
         self.chunk.combine(auto_destroy=True)
         
         self.chunk.collider = 'mesh'
-        self.chunk.texture = 'Textures/Grass_block.jpg'
+        self.chunk.texture = self.texture
         #self.chunk.model.generate_normals()
         #self.disableChunk()
     
@@ -126,7 +126,7 @@ class chunk:
 #---------------------------------------------------------------------------------------------------------------------------
 
 class terrainGen:
-    world_length = 32
+    world_length = 16
     
     def __init__(self):
         self.chunkList = []
