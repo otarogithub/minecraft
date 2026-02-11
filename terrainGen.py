@@ -8,13 +8,12 @@ noise = PerlinNoise(octaves=6, seed=randrange(-1000000, 1000000))
 
 class block:
     block = 'Models/cube.obj'
-    texture = 'Textures/block_atlas.png'
     entity = None
     
     def __init__(self):
-        self.entity = Entity(model=self.block, collider = 'box', texture=self.texture)
+        self.entity = Entity(model=self.block, collider = 'box', texture='Textures/block_atlas', tileset_size=(64, 64), tile_coordinate=(30, 15))
+
         
-    
     def genBlock(self, x, y, z):
         self.entity.position = (x, y, z)
         
